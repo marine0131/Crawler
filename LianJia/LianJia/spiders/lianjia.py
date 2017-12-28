@@ -10,7 +10,7 @@ from scrapy_redis.spiders import RedisSpider
 class LianjiaSpider(RedisSpider):
     name = 'lianjiaspider'
     redis_key = 'lianjiaspider:urls'
-    start_urls = 'http://bj.lianjia.com/ershoufang/'
+    start_urls = 'http://hz.lianjia.com/ershoufang/'
 
     def start_requests(self):
         user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.22 \
@@ -30,7 +30,7 @@ class LianjiaSpider(RedisSpider):
                 area_han = area.xpath('text()').pop()    # 地点
 
                 area_pin = area.xpath('@href').pop().split('/')[2]   # 拼音
-                area_url = 'http://bj.lianjia.com/ershoufang/{}/'.format(area_pin)
+                area_url = 'http://hz.lianjia.com/ershoufang/{}/'.format(area_pin)
                 print(area_url)
                 yield scrapy.Request(url=area_url, headers=headers, callback=self.detail_url, meta={"id1":area_han,"id2":area_pin} )
             except Exception:
@@ -48,9 +48,9 @@ class LianjiaSpider(RedisSpider):
         return longitude_latitude[1:-1]
 
     def detail_url(self,response):
-        'http://bj.lianjia.com/ershoufang/dongcheng/pg2/'
+        'http://hz.lianjia.com/ershoufang/dongcheng/pg2/'
         for i in range(1,101):
-            url = 'http://bj.lianjia.com/ershoufang/{}/pg{}/'.format(response.meta["id2"],str(1))
+            url = 'http://hz.lianjia.com/ershoufang/{}/pg{}/'.format(response.meta["id2"],str(1))
             time.sleep(2)
             try:
                 contents = requests.get(url)
