@@ -24,7 +24,8 @@ class LianjiaSpider(RedisSpider):
         headers = {'User-Agent': user_agent}
         lists = response.body.decode('utf-8')
         selector = etree.HTML(lists)
-        area_list = selector.xpath('/html/body/div[3]/div[2]/dl[2]/dd/div[1]/div/a')
+        area_list = selector.xpath('/html/body/div[3]/div[1]/dl[2]/dd/div[1]/div/a')
+        print(area_list)
         for area in area_list:
             try:
                 area_han = area.xpath('text()').pop()    # 地点
@@ -48,7 +49,7 @@ class LianjiaSpider(RedisSpider):
         return longitude_latitude[1:-1]
 
     def detail_url(self,response):
-        'http://hz.lianjia.com/ershoufang/dongcheng/pg2/'
+        'http://hz.lianjia.com/ershoufang/xihu/pg2/'
         for i in range(1,101):
             url = 'http://hz.lianjia.com/ershoufang/{}/pg{}/'.format(response.meta["id2"],str(1))
             time.sleep(2)
